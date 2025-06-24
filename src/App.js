@@ -6,6 +6,8 @@ import Items from "./components/Items";
 import Categories from "./components/Categories";
 import ShowFullItem from "./components/ShowFullItem";
 
+import { PRODUCTS_LIST } from "./constants/constants";
+
 
 class App extends React.Component {
   constructor(props){
@@ -13,56 +15,7 @@ class App extends React.Component {
     this.state = {
       orders: [],
       currentItems: [],
-      items: [
-        {
-        id: 1,
-        title: 'Коврик для ванной',
-        img: 'kover.jpg',
-        desc: 'Добавляет комфорт и уют в вашу ванную комнату.',
-        category: 'Товары для дома',
-        price: '1200'
-        },
-        {
-        id: 2,
-        title: 'Набор кухонных ножей',
-        img: 'knifes.jpeg',
-        desc: 'Качественные ножи из нержавеющей стали.',
-        category: 'Кухня',
-        price: '3500'
-        },
-        {
-        id: 3,
-        title: 'Скатерть',
-        img: 'skatert.jpeg',
-        desc: 'Стильная скатерть, которая украсит ваш стол.',
-        category: 'Кухня',
-        price: '800'
-        },
-        {
-        id: 4,
-        title: 'Утюг с парогенератором',
-        img: 'ytug.jpg',
-        desc: 'Утюг для быстрой и качественной глажки.',
-        category: 'Бытовая техника',
-        price: '5500'
-        },
-        {
-        id: 5,
-        title: 'Плед',
-        img: 'pled.jpeg',
-        desc: 'Теплый и уютный плед для холодных вечеров.',
-        category: 'Товары для дома',
-        price: '1500'
-        },
-        {
-        id: 6,
-        title: 'Настенный светильник',
-        img: 'svetilnik.jpg',
-        desc: 'Светильник для создания уюта в вашем интерьере.',
-        category: 'Освещение',
-        price: '2500'
-        }
-      ],
+      items: PRODUCTS_LIST,
       showFullItem: false,
       fullItem: {},
     }
@@ -73,17 +26,7 @@ class App extends React.Component {
     this.onShowItem = this.onShowItem.bind(this);
 
   }
-  render(){
-  return (
-    <div className="wrapper">
-      <Header orders={this.state.orders} onDelete={this.deleteOrder}/>
-      <Categories chooseCategory={this.chooseCategory}/>
-      <Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder}/>
-      {this.state.showFullItem && <ShowFullItem onShowItem={this.onShowItem} onAdd={this.addToOrder} item={this.state.fullItem}/>}
-      <Footer />
-    </div>
-  );
-  }
+  
 
   onShowItem(item){
     this.setState({fullItem: item})
@@ -110,9 +53,22 @@ class App extends React.Component {
       if(el.id === item.id)
         isInArray = true;
     })
+
     if(!isInArray) {
-          this.setState({orders: [...this.state.orders, item]});
+      this.setState({orders: [...this.state.orders, item]});
     }
+  }
+
+  render() {
+    return (
+      <div className="wrapper">
+        <Header orders={this.state.orders} onDelete={this.deleteOrder}/>
+        <Categories chooseCategory={this.chooseCategory}/>
+        <Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder}/>
+        {this.state.showFullItem && <ShowFullItem onShowItem={this.onShowItem} onAdd={this.addToOrder} item={this.state.fullItem}/>}
+        <Footer />
+      </div>
+    );
   }
 }
 
